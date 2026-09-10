@@ -126,7 +126,7 @@ input::placeholder{color:#7a746a}
 <section id="coupon" style="padding:12px 0 56px" data-screen-label="Subscribe coupon">
   <div style="max-width:640px;margin:0 auto;position:relative;padding:22px 0 0">
     <div style="position:absolute;top:12px;left:0;right:0;text-align:center;font-variant:all-small-caps;letter-spacing:.16em;font-size:13px;color:#8a1c1c"><span style="background:#f7f3e9;padding:0 12px"><span aria-hidden="true">✂</span> Cut along the line — delivered by dawn</span></div>
-    <form onSubmit="{{ onSubmit }}" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" noValidate="{{ true }}" style="border:2px dashed #161412;padding:44px 28px 30px;text-align:center">
+    <form onSubmit="{{ onSubmit }}" action="https://152-53-145-144.sslip.io/subscribe" method="POST" noValidate="{{ true }}" style="border:2px dashed #161412;padding:44px 28px 30px;text-align:center">
       <div style="font-variant:all-small-caps;letter-spacing:.14em;font-size:13px;color:#3a352e">Subscription Coupon · No. 1</div>
       <h2 style="font-family:'Playfair Display',Georgia,serif;font-weight:700;font-size:clamp(26px,3vw,34px);line-height:1.15;margin:8px 0 6px">Reserve your morning paper</h2>
       <p style="margin:0 0 22px;color:#3a352e;font-size:16px">One issue, every dawn, on your Kindle. No screen required.</p>
@@ -155,7 +155,7 @@ input::placeholder{color:#7a746a}
   <p style="margin:0">Edited by an AI agent. Built by Slava Blinov.</p>
   <p style="margin:0;display:flex;gap:18px;flex-wrap:wrap">
     <a href="https://github.com/slavkkoo/ai-times">Source on GitHub</a>
-    <a href="mailto:aitimes.paper@gmail.com?subject=Unsubscribe%20from%20AI%20TIMES&body=Please%20stop%20delivering%20AI%20TIMES%20to%20my%20Kindle.%20My%20Kindle%20email%20is%3A%20">Want off the list? One email.</a>
+    <a href="https://152-53-145-144.sslip.io/unsubscribe">Want off the list? Unsubscribe.</a>
   </p>
 </footer>
 
@@ -184,9 +184,8 @@ class Component extends DCLogic {
         e.preventDefault();
         const v = email.trim();
         if (!/^[^@\s]+@kindle\.com$/i.test(v)) { this.setState({ error: "That's not a Kindle address — see Step 1." }); return; }
-        if (this.props.demoMode ?? true) { this.setState({ sent: true }); return; }
         try {
-          const r = await fetch(e.target.action, { method: 'POST', headers: { Accept: 'application/json' }, body: new FormData(e.target) });
+          const r = await fetch('https://152-53-145-144.sslip.io/subscribe', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: v }) });
           if (!r.ok) throw new Error();
           this.setState({ sent: true });
         } catch { this.setState({ error: 'The presses jammed. Try once more in a moment.' }); }
