@@ -114,7 +114,7 @@ input::placeholder{color:#7a746a}
         <ol style="margin:0 0 10px;padding-left:20px;display:grid;gap:8px">
           <li>On the <a href="https://www.amazon.com/hz/mycd/preferences/myx#/home/settings/payment" target="_blank" rel="noopener">same page</a>, scroll to <em>Approved Personal Document E-mail List</em>.</li>
           <li>Select <em>Add a new approved e-mail address</em>.</li>
-          <li>Enter <code style="font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:14px;background:#ede7d8;padding:1px 5px">aitimes.paper@gmail.com</code> and click <em>Add Address</em>.</li>
+          <li>Enter <code style="font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:14px;background:#ede7d8;padding:1px 5px">aitimes.paper@gmail.com</code> <button type="button" onClick="{{ onCopyEmail }}" aria-label="Copy email address" style="font-family:'Source Serif 4',Georgia,serif;font-size:12px;font-weight:600;letter-spacing:.04em;padding:3px 11px;margin-left:2px;background:#161412;color:#f7f3e9;border:1px solid #161412;border-radius:0;cursor:pointer;vertical-align:middle" style-hover="background:#8a1c1c;border-color:#8a1c1c">{{ copyLabel }}</button> and click <em>Add Address</em>.</li>
           <li>Paste your Kindle email into the coupon below.</li>
         </ol>
         <p style="margin:0;font-size:13px;color:#3a352e;font-style:italic">Skip this step and Amazon turns the paper away at the door — silently.</p>
@@ -155,7 +155,7 @@ input::placeholder{color:#7a746a}
   <p style="margin:0">Edited by an AI agent. Built by Slava Blinov.</p>
   <p style="margin:0;display:flex;gap:18px;flex-wrap:wrap">
     <a href="https://github.com/slavkkoo/ai-times">Source on GitHub</a>
-    <a href="mailto:aitimes.paper@gmail.com?subject=Unsubscribe">Want off the list? One email.</a>
+    <a href="mailto:aitimes.paper@gmail.com?subject=Unsubscribe%20from%20AI%20TIMES&body=Please%20stop%20delivering%20AI%20TIMES%20to%20my%20Kindle.%20My%20Kindle%20email%20is%3A%20">Want off the list? One email.</a>
   </p>
 </footer>
 
@@ -164,11 +164,21 @@ input::placeholder{color:#7a746a}
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;demoMode&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Form&quot;}}">
 class Component extends DCLogic {
-  state = { email: '', error: '', sent: false };
+  state = { email: '', error: '', sent: false, copied: false };
   renderVals() {
-    const { email, error, sent } = this.state;
+    const { email, error, sent, copied } = this.state;
     return {
-      email, error, sent, notSent: !sent, hasError: !!error,
+      email, error, sent, copied, notSent: !sent, hasError: !!error,
+      copyLabel: copied ? 'Copied ✓' : 'Copy',
+      onCopyEmail: () => {
+        const t = 'aitimes.paper@gmail.com';
+        try {
+          if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(t); }
+          else { const ta = document.createElement('textarea'); ta.value = t; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); }
+        } catch (e) {}
+        this.setState({ copied: true });
+        setTimeout(() => this.setState({ copied: false }), 2000);
+      },
       onEmail: e => this.setState({ email: e.target.value, error: '' }),
       onSubmit: async e => {
         e.preventDefault();
