@@ -1,0 +1,5 @@
+{"ts":"2026-09-10T04:52:02.343Z","cmd":"viewport","args":"1280x950","origin":"about:blank","durationMs":6,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-09-10T04:52:02.516Z","cmd":"goto","args":"http://localhost:8792/","origin":"http://localhost:8792/","durationMs":135,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-09-10T04:52:04.673Z","cmd":"screenshot","args":"/tmp/aitimes-cta.png --clip 0,0,1280,950","origin":"http://localhost:8792/","durationMs":62,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-09-10T04:52:04.712Z","cmd":"console","args":"--errors","origin":"http://localhost:8792/","durationMs":1,"status":"ok","hasCookies":false,"mode":"launched"}
+{"ts":"2026-09-10T04:52:04.744Z","cmd":"js","args":"!!document.querySelector('a[href=\"#coupon\"]')","origin":"http://localhost:8792/","durationMs":0,"status":"ok","hasCookies":false,"mode":"launched"}
